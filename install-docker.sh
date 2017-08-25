@@ -1,7 +1,6 @@
 #/bin/sh
 
 # Copy-pasted from https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#install-using-the-repository
-
 # Docker-Engine
 sudo apt-get update
 sudo apt-get install \
@@ -17,7 +16,7 @@ sudo add-apt-repository \
 sudo apt-get update
 sudo apt-get install docker-ce
 
-# optional: Allow current user to run docker without sudo
+# Allow current user to run docker without sudo
 ME=`whoami`
 sudo usermod -aG docker $ME
 
@@ -34,4 +33,3 @@ curl -L https://github.com/dhiltgen/docker-machine-kvm/releases/download/v0.10.0
 
 # Just to be sure
 sudo reboot
-
