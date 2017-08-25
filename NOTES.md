@@ -5,7 +5,7 @@ docker swarm.
 
 ## Initial setup
 
-* Docker installieren: [install-docker.sh](install-docker.sh)
+* Install Docker: [install-docker.sh](install-docker.sh)
 * `docker-machine create -d kvm manager-01`
 * `virsh list`
 * `docker-machine create -d kvm manager-01`
