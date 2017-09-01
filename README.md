@@ -16,10 +16,11 @@ docker swarm.
 * `eval $(docker-machine env manager-01)`
 * `docker info | grep Name`
 * `docker swarm init --advertise-addr $DOCKER_MANAGER_IP`
+* `export DOCKER_SWARM_WORKER_JOIN_TOKEN=$(docker swarm join-token worker)`
 * `eval $(docker-machine env worker-01)`
-* `docker swarm join --token SWMTKN-1-2nsdjw6snpdzrm3ajmvvu7kv2q09wf42c8uuwcfsmks8fyx3po-38ahdyxm7chkh5fousrja9r59 ${DOCKER_MANAGER_IP}:2377`
+* `docker swarm join --token $DOCKER_SWARM_WORKER_JOIN_TOKEN ${DOCKER_MANAGER_IP}:2377`
 * `eval $(docker-machine env worker-02)`
-* `docker swarm join --token SWMTKN-1-2nsdjw6snpdzrm3ajmvvu7kv2q09wf42c8uuwcfsmks8fyx3po-38ahdyxm7chkh5fousrja9r59 ${DOCKER_MANAGER_IP}:2377`
+* `docker swarm join --token $DOCKER_SWARM_WORKER_JOIN_TOKEN ${DOCKER_MANAGER_IP}:2377`
 
 At this point we have a docker 'swarm-mode' cluster with three nodes.
 
