@@ -28,5 +28,8 @@ At this point we have a docker 'swarm-mode' cluster with three nodes.
 
 * `docker service ls`
 
-TODO: Use the docker container I made here
+### TODO: Use the docker container I made here
+
+* Login to My Docker-Registry
+* Pull the image `dreg.ls42.de/hello-go`
 
