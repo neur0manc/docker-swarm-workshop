@@ -12,7 +12,7 @@ docker swarm.
 * `docker-machine create -d kvm worker-01`
 * `docker-machine create -d kvm worker-02`
 * `virsh list`
-* `export DOCKER_MANAGER_IP=`docker-machine ip manager-01``
+* `export DOCKER_MANAGER_IP=$(docker-machine ip manager-01)`
 * `eval $(docker-machine env manager-01)`
 * `docker info | grep Name`
 * `docker swarm init --advertise-addr $DOCKER_MANAGER_IP`
