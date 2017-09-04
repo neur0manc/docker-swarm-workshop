@@ -44,7 +44,6 @@ At this point we have a docker 'swarm-mode' cluster with three nodes.
 
 * `eval $(docker-machine env manager-01)`
 * `docker node ls`
-* `docker service ls`
 * `docker login dreg.ls42.de -u stephan -p foobar2000` -> This needs to 
   run on all nodes that run container (in this case all nodes)
 * `docker service create --detach=false --with-registry-auth --name 
