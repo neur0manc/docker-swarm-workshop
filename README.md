@@ -32,7 +32,7 @@ install a few Docker VMs that will form the cluster.
 * `eval $(docker-machine env manager-01)`
 * `docker info | grep Name`
 * `docker swarm init --advertise-addr $DOCKER_MANAGER_IP`
-* `export DOCKER_SWARM_WORKER_JOIN_TOKEN=$(docker swarm join-token worker)`
+* `export DOCKER_SWARM_WORKER_JOIN_TOKEN=$(docker swarm join-token -q worker)`
 * `eval $(docker-machine env worker-01)`
 * `docker swarm join --token $DOCKER_SWARM_WORKER_JOIN_TOKEN ${DOCKER_MANAGER_IP}:2377`
 * `eval $(docker-machine env worker-02)`
