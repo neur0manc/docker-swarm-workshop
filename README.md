@@ -10,8 +10,11 @@ install a few Docker VMs that will form the cluster.
 
 ### On Linux with KVM
 
+Install Docker: [install-docker-linux.sh](install-docker.sh)
+
+Then reboot. Then:
+
 ```bash
-# Install Docker: [install-docker-linux.sh](install-docker.sh)
 docker-machine create -d kvm manager-01
 docker-machine ls
 docker-machine create -d kvm worker-01
