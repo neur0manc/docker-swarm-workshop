@@ -41,15 +41,22 @@ export DOCKER_MANAGER_IP=$(docker-machine ip manager-01)
 eval $(docker-machine env manager-01)
 docker info | grep Name
 docker swarm init --advertise-addr $DOCKER_MANAGER_IP
-for WORKER in $DOCKER_WORKERS; do
 export DOCKER_SWARM_WORKER_JOIN_TOKEN=$(docker swarm join-token -q worker)
+for WORKER in $DOCKER_WORKERS; do
     eval $(docker-machine env $WORKER)
     docker swarm join --token $DOCKER_SWARM_WORKER_JOIN_TOKEN ${DOCKER_MANAGER_IP}:2377
     docker login dreg.ls42.de -u stephan -p foobar2000
 done
 ```
 
-At this point we have a docker 'swarm-mode' cluster with three nodes.
+At this point we have a docker 'swarm-mode' cluster with three nodes.  
+For easy access of all our nodes add their IPs to our hosts file:
+
+```bash
+for host in manager-01 worker-01 worker-02; do
+	echo -e "$host\t$(docker-machine ip $host)" | sudo tee -a /etc/hosts > /dev/null
+done
+```
 
 ## Playing around, deploying a few services
 
