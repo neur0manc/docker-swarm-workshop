@@ -81,7 +81,8 @@ docker swarm init --advertise-addr $DOCKER_MANAGER_IP
 export DOCKER_SWARM_WORKER_JOIN_TOKEN=$(docker swarm join-token -q worker)
 for WORKER in $DOCKER_WORKERS; do
     eval $(docker-machine env $WORKER)
-    docker swarm join --token $DOCKER_SWARM_WORKER_JOIN_TOKEN ${DOCKER_MANAGER_IP}:2377
+    docker swarm join --token $DOCKER_SWARM_WORKER_JOIN_TOKEN\
+        ${DOCKER_MANAGER_IP}:2377
     docker login dreg.ls42.de -u stephan -p foobar2000
 done
 ```
@@ -91,7 +92,8 @@ For easy access of all our nodes add their IPs to our hosts file:
 
 ```bash
 for SWARM_MEMBER in $DOCKER_SWARM_MEMBERS; do
-    echo -e "${SWARM_MEMBER}\t$(docker-machine ip ${SWARM_MEMBER})" | sudo tee -a /etc/hosts > /dev/null
+    echo -e "${SWARM_MEMBER}\t$(docker-machine ip ${SWARM_MEMBER})" |\
+        sudo tee -a /etc/hosts > /dev/null
 done
 ```
 
@@ -100,7 +102,8 @@ done
 ```bash
 eval $(docker-machine env manager-01)
 docker node ls
-docker service create --detach=false --with-registry-auth --name hello-go --replicas 5 -p 80:8080 dreg.ls42.de/hello-go
+docker service create --detach=false --with-registry-auth\
+    --name hello-go --replicas 3 -p 80:8080 dreg.ls42.de/hello-go
 docker service ls
 docker service ps hello-go
 ```
