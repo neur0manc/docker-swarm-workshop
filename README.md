@@ -8,35 +8,72 @@ docker swarm.
 Follow the steps according to your operating system to successfully 
 install a few Docker VMs that will form the cluster.
 
+```bash
+DOCKER_MANAGERS="manager-01"
+DOCKER_WORKERS="worker-01 worker-02"
+DOCKER_SWARM_MEMBERS="${DOCKER_MANAGERS} ${DOCKER_WORKERS}"
+```
+
 ### On Linux with KVM
 
-Install Docker: [install-docker-linux.sh](install-docker.sh)
-
-Then reboot. Then:
-
 ```bash
-docker-machine create -d kvm manager-01
-docker-machine ls
-docker-machine create -d kvm worker-01
-docker-machine create -d kvm worker-02
-docker-machine ls
+# Copy-pasted from 
+https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#install-using-the-repository
+# Docker-Engine
+sudo apt-get update
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+sudo apt-get update
+sudo apt-get install docker-ce
+
+# Allow current user to run docker without sudo
+ME=`whoami`
+sudo usermod -aG docker $ME
+
+# Docker-Machine
+curl -L https://github.com/docker/machine/releases/download/v0.12.2/docker-machine-`uname -s`-`uname -m` >/tmp/docker-machine &&
+    chmod +x /tmp/docker-machine &&
+    sudo cp /tmp/docker-machine /usr/local/bin/docker-machine
+
+# KVM and docker-machine plugin for KVM
+sudo apt-get install libvirt-bin qemu-kvm
+curl -L https://github.com/dhiltgen/docker-machine-kvm/releases/download/v0.10.0/docker-machine-driver-kvm-ubuntu16.04 > /tmp/docker-machine-driver-kvm &&
+	chmod +x /tmp/docker-machine-driver-kvm &&
+	sudo cp /tmp/docker-machine-driver-kvm /usr/local/bin/docker-machine-driver-kvm
+
+# Just to be sure
+sudo reboot
+
+DOCKER_MACHINE_DRIVER="kvm"
 ```
 
 ### On macOS with xhyve (works only with homebrew)
 
 ```bash
 brew install docker docker-compose docker-machine docker-machine-driver-xhyve
-docker-machine create -d xhyve manager-01
-docker-machine ls
-docker-machine create -d xhyve worker-01
-docker-machine create -d xhyve worker-02
+DOCKER_MACHINE_DRIVER="xhyve"
+```
+
+### Creating our swarm members
+
+```bash
+for SWARM_MEMBER in $DOCKER_SWARM_MEMBERS; do
+    docker-machine create -d $DOCKER_MACHINE_DRIVER $SWARM_MEMBER
+done
 docker-machine ls
 ```
 
-### Creating the cluster and joining worker nodes.
+### Creating the cluster and joining worker nodes
 
 ```bash
-DOCKER_WORKERS='worker-01 worker-02'
 export DOCKER_MANAGER_IP=$(docker-machine ip manager-01)
 eval $(docker-machine env manager-01)
 docker info | grep Name
@@ -53,8 +90,8 @@ At this point we have a docker 'swarm-mode' cluster with three nodes.
 For easy access of all our nodes add their IPs to our hosts file:
 
 ```bash
-for host in manager-01 worker-01 worker-02; do
-	echo -e "$host\t$(docker-machine ip $host)" | sudo tee -a /etc/hosts > /dev/null
+for SWARM_MEMBER in $DOCKER_SWARM_MEMBERS; do
+    echo -e "${SWARM_MEMBER}\t$(docker-machine ip ${SWARM_MEMBER})" | sudo tee -a /etc/hosts > /dev/null
 done
 ```
 
