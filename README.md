@@ -17,8 +17,8 @@ DOCKER_SWARM_MEMBERS="${DOCKER_MANAGERS} ${DOCKER_WORKERS}"
 ### On Linux with KVM
 
 ```bash
-# Copy-pasted from 
-https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#install-using-the-repository
+# Copy-pasted from https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#install-using-the-repository
+
 # Docker-Engine
 sudo apt-get update
 sudo apt-get install \
