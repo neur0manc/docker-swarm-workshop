@@ -10,12 +10,14 @@ install a few Docker VMs that will form the cluster.
 
 ### On Linux with KVM
 
+```bash
 # Install Docker: [install-docker-linux.sh](install-docker.sh)
 docker-machine create -d kvm manager-01
 docker-machine ls
 docker-machine create -d kvm worker-01
 docker-machine create -d kvm worker-02
 docker-machine ls
+```
 
 ### On macOS with xhyve (works only with homebrew)
 
