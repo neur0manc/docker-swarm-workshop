@@ -79,6 +79,7 @@ eval $(docker-machine env manager-01)
 docker info | grep Name
 docker swarm init --advertise-addr $DOCKER_MANAGER_IP
 export DOCKER_SWARM_WORKER_JOIN_TOKEN=$(docker swarm join-token -q worker)
+docker login dreg.ls42.de -u stephan -p foobar2000
 for WORKER in $DOCKER_WORKERS; do
     eval $(docker-machine env $WORKER)
     docker swarm join --token $DOCKER_SWARM_WORKER_JOIN_TOKEN\
