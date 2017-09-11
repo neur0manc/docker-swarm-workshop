@@ -9,9 +9,9 @@ Follow the steps according to your operating system to successfully
 install a few Docker VMs that will form the cluster.
 
 ```bash
-DOCKER_MANAGERS="manager-01"
-DOCKER_WORKERS="worker-01 worker-02"
-DOCKER_SWARM_MEMBERS="${DOCKER_MANAGERS} ${DOCKER_WORKERS}"
+DOCKER_MANAGERS=("manager-01")
+DOCKER_WORKERS=("worker-01" "worker-02")
+DOCKER_SWARM_MEMBERS=(${DOCKER_MANAGERS} ${DOCKER_WORKERS})
 ```
 
 ### On Linux with KVM
