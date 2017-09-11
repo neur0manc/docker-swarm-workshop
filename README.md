@@ -93,7 +93,7 @@ For easy access of all our nodes add their IPs to our hosts file:
 
 ```bash
 for SWARM_MEMBER in $DOCKER_SWARM_MEMBERS; do
-    echo -e "${SWARM_MEMBER}\t$(docker-machine ip ${SWARM_MEMBER})" |\
+    echo -e "$(docker-machine ip ${SWARM_MEMBER})\t${SWARM_MEMBER}" |\
         sudo tee -a /etc/hosts > /dev/null
 done
 ```
