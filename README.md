@@ -31,23 +31,24 @@ sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
-sudo apt-get update
-sudo apt-get install docker-ce
+sudo apt update
+sudo apt install docker-ce
 
-# Allow current user to run docker without sudo
+# Allow current user to run docker and manage KVM without sudo
 ME=`whoami`
 sudo usermod -aG docker $ME
 
 # Docker-Machine
-curl -L https://github.com/docker/machine/releases/download/v0.12.2/docker-machine-`uname -s`-`uname -m` >/tmp/docker-machine &&
+curl -L https://github.com/docker/machine/releases/download/v0.14.0/docker-machine-`uname -s`-`uname -m` >/tmp/docker-machine &&
     chmod +x /tmp/docker-machine &&
     sudo cp /tmp/docker-machine /usr/local/bin/docker-machine
 
 # KVM and docker-machine plugin for KVM
 sudo apt-get install libvirt-bin qemu-kvm
-curl -L https://github.com/dhiltgen/docker-machine-kvm/releases/download/v0.10.0/docker-machine-driver-kvm-ubuntu16.04 > /tmp/docker-machine-driver-kvm &&
-	chmod +x /tmp/docker-machine-driver-kvm &&
-	sudo cp /tmp/docker-machine-driver-kvm /usr/local/bin/docker-machine-driver-kvm
+sudo usermod -a -G libvirt $ME
+curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-kvm2 &&
+    chmod +x docker-machine-driver-kvm2 &&
+    sudo mv docker-machine-driver-kvm2 /usr/local/bin/
 
 # Just to be sure
 sudo reboot
