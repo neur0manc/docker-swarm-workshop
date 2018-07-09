@@ -5,7 +5,7 @@ docker swarm.
 
 ## Initial setup
 
-Follow the steps according to your operating system to successfully 
+Follow the steps according to your operating system to successfully
 install a few Docker VMs that will form the cluster.
 
 ```bash
@@ -87,7 +87,7 @@ for WORKER in $DOCKER_WORKERS; do
 done
 ```
 
-At this point we have a docker 'swarm-mode' cluster with three nodes.  
+At this point we have a docker 'swarm-mode' cluster with three nodes.
 For easy access of all our nodes add their IPs to our hosts file:
 
 ```bash
@@ -103,13 +103,13 @@ done
 eval $(docker-machine env manager-01)
 docker node ls
 docker service create --detach=false --with-registry-auth\
-    --name hello-go --replicas 3 -p 80:8080 brauer/hello-go
+    --name hello --replicas 3 -p 80:8080 brauer/hello-container
 docker service ls
-docker service ps hello-go
+docker service ps hello
 ```
 
-The small go service is now available on all nodes that are involved in 
-the cluster, even the ones that don't run the container at the moment.  
+The small go service is now available on all nodes that are involved in
+the cluster, even the ones that don't run the container at the moment.
 Try it out in the browser:
 
 * [manager-01](http://manager-01)
