@@ -80,12 +80,10 @@ eval $(docker-machine env manager-01)
 docker info | grep Name
 docker swarm init --advertise-addr $DOCKER_MANAGER_IP
 export DOCKER_SWARM_WORKER_JOIN_TOKEN=$(docker swarm join-token -q worker)
-docker login dreg.ls42.de -u stephan -p foobar2000
 for WORKER in $DOCKER_WORKERS; do
     eval $(docker-machine env $WORKER)
     docker swarm join --token $DOCKER_SWARM_WORKER_JOIN_TOKEN\
         ${DOCKER_MANAGER_IP}:2377
-    docker login dreg.ls42.de -u stephan -p foobar2000
 done
 ```
 
@@ -105,7 +103,7 @@ done
 eval $(docker-machine env manager-01)
 docker node ls
 docker service create --detach=false --with-registry-auth\
-    --name hello-go --replicas 3 -p 80:8080 dreg.ls42.de/hello-go
+    --name hello-go --replicas 3 -p 80:8080 brauer/hello-go
 docker service ls
 docker service ps hello-go
 ```
