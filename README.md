@@ -93,7 +93,7 @@ for MANAGER in $DOCKER_MANAGERS; do
 done
 ```
 
-At this point we have a docker 'swarm-mode' cluster with
+At this point we have a docker **swarm-mode** cluster with
 `count($DOCKER_SWARM_MEMBERS)` nodes. For easy access of all our nodes
 add their IPs to our hosts file:
 
