@@ -72,7 +72,7 @@ done
 docker-machine ls
 ```
 
-### Creating the cluster and joining worker nodes
+### Creating the cluster and joining nodes
 
 ```bash
 export DOCKER_MANAGER_IP=$(docker-machine ip manager-01)
@@ -80,15 +80,22 @@ eval $(docker-machine env manager-01)
 docker info | grep Name
 docker swarm init --advertise-addr $DOCKER_MANAGER_IP
 export DOCKER_SWARM_WORKER_JOIN_TOKEN=$(docker swarm join-token -q worker)
+export DOCKER_SWARM_MANAGER_JOIN_TOKEN=$(docker swarm join-token -q manager)
 for WORKER in $DOCKER_WORKERS; do
     eval $(docker-machine env $WORKER)
     docker swarm join --token $DOCKER_SWARM_WORKER_JOIN_TOKEN\
         ${DOCKER_MANAGER_IP}:2377
 done
+for MANAGER in $DOCKER_MANAGERS; do
+    eval $(docker-machine env $MANAGER)
+    docker swarm join --token $DOCKER_SWARM_MANAGER_JOIN_TOKEN\
+        ${DOCKER_MANAGER_IP}:2377
+done
 ```
 
-At this point we have a docker 'swarm-mode' cluster with three nodes.
-For easy access of all our nodes add their IPs to our hosts file:
+At this point we have a docker **swarm-mode** cluster with
+`count($DOCKER_SWARM_MEMBERS)` nodes. For easy access of all our nodes
+add their IPs to our hosts file:
 
 ```bash
 for SWARM_MEMBER in $DOCKER_SWARM_MEMBERS; do
