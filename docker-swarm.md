@@ -1,4 +1,4 @@
-# Notes on Swarm-Mode, Docker-Machine and RancherOS. And Docker
+# Notes on Swarm-Mode, Docker-Machine and RancherOS
 
 ### Snippets
 
@@ -8,6 +8,8 @@ A few useful snippets for me to remember with my Swarm setup.
 * `for i in {01..05} ; do docker-machine ssh manager-$i "sleep 60 && sudo reboot"; done`
 * `watch -n 1 docker node ls` &larr; Great for seeing what happens when rebooting all machines at once. Especially when your're rebooting the leader of all managers.
 * `watch -n 1 docker service ls` &larr; Same as above, but for services. Also: `watch -n 1 docker service ps <service-name>` for a more detailed view.
+* `sudo system-docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Command}}"` &larr; This is about the `--format` switch, which is a bit more compact.
+* `watch -n 1 'docker node ls --format "table {{.Hostname}}\t{{.Status}}\t{{.Availability}}\t{{.ManagerStatus}}"'`
 
 ### RancherOS
 
